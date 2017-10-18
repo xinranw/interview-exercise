@@ -1,0 +1,70 @@
+{
+  "sites": [
+    {
+      "name": "Gulf 1234",
+      "alarms": [],
+      "tanks": [
+        { 
+          "name": "Tank 1",
+          "leaking": false,
+          "leakStatusDate": "2017-10-16 02:30:12.587222 -04:00"
+        }
+      ]
+    },
+    {
+      "name": "Gulf 5678",
+      "alarms": [
+        {
+          "name": "Low Product Alarm",
+          "severity": "Low",
+          "alarmDate": "2017-10-16 07:47:15.788111 -04:00"
+        }
+      ],
+      "tanks": [
+        { 
+          "name": "Tank 1",
+          "leaking": false,
+          "leakStatusDate": "2017-10-16 08:34:01.441318 -04:00"
+        },
+        { 
+          "name": "Tank 2",
+          "leaking": false,
+          "leakStatusDate": "2017-10-16 08:24:12.587222 -04:00"
+        }
+      ]
+    },
+    {
+      "name": "Sunoco 1234",
+      "alarms": [
+        {
+          "name": "Low Product Alarm",
+          "severity": "High",
+          "alarmDate": "2017-10-16 07:47:15.788111 -04:00"
+        }
+      ],
+      "tanks": [
+        { 
+          "name": "Tank 1",
+          "leaking": false,
+          "leakStatusDate": "2017-10-15 12:30:01.441318 -04:00"
+        }
+      ]
+    },
+    {
+      "name": "Sunoco 5678",
+      "alarms": [],
+      "tanks": [
+        { 
+          "name": "Tank 1",
+          "leaking": true,
+          "leakStatusDate": "2017-10-16 08:34:01.441318 -04:00"
+        },
+        { 
+          "name": "Tank 2",
+          "leaking": false,
+          "leakStatusDate": "2017-10-16 08:24:12.587222 -04:00"
+        }
+      ]
+    }
+  ]
+}
