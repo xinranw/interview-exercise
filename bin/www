@@ -7,6 +7,8 @@
 var app = require('../app')
 var debug = require('debug')('canary-service:server')
 var http = require('http')
+var mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 
 /**
  * Get port from environment and store in Express.
@@ -14,6 +16,17 @@ var http = require('http')
 
 var port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
+
+/**
+ * Set up a connection to the database
+ */
+var dbUri = 'mongodb://canary-dev:canary_dev@ds229465.mlab.com:29465/canary-service'
+mongoose.connect(dbUri, {
+  useMongoClient: true
+})
+
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'Database connection error:'))
 
 /**
  * Create HTTP server.
