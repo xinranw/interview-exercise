@@ -1,23 +1,19 @@
 const Promise = require('bluebird')
+const { SiteModel } = require('./../models')
 
 class DAO {
   static saveSiteModel(siteModel) {
-    const saveSitePromise = new Promise((resolve, reject) => {
-      siteModel.save((err, product) => {
-        if (err) {
-          reject(err)
-        }
-        resolve(product)
-      })
-    })
-    return saveSitePromise
+    return siteModel.save()
   }
 
   static saveSiteModels(siteModels) {
-    console.log(siteModels)
     return Promise.all(siteModels.map(siteModel => {
       return DAO.saveSiteModel(siteModel)
     }))
+  }
+
+  static getSite(id) {
+    SiteModel.findOne()
   }
 
   static getStation() {
