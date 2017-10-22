@@ -9,7 +9,10 @@ const SiteSchema = Schema({
     unique: true,
     required: true
   },
-  compliant: { type: Boolean, default: true },
+  compliance: {
+    value: { type: Boolean, default: true },
+    lastUpdated: { type: Date, default: null }
+  },
   alarms: [{
     name: { type: String, required: true },
     severity: {
@@ -51,14 +54,16 @@ class Site {
         leakStatusDate: Utils.parseDateString(tank.leakStatusDate)
       }
     })
-    const isCompliant = tanks.map(tank => tank.leaking).some(leaking => leaking === true)
+    const compliance = {
+      value: tanks.map(tank => tank.leaking).some(leaking => leaking === true),
+      lastUpdated: null
+    }
     const siteModelData = {
       name: site.name,
-      compliant: isCompliant,
+      compliance: compliance,
       alarms: alarms,
       tanks: tanks
     }
-    console.log(siteModelData)
     return new SiteModel(siteModelData)
   }
 }
