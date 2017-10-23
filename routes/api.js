@@ -5,9 +5,9 @@ const fs = Promise.promisifyAll(require('fs'))
 const DAO = require('./../data/DAO')
 const { Site } = require('./../models')
 
-router.get('/sites/:siteId', async (req, res, next) => {
+router.get('/stations/:stationId', async (req, res, next) => {
   try {
-    const site = await DAO.getSite(req.params.siteId)
+    const site = await DAO.getSite(req.params.stationId)
     if (!site) {
       res.status(404)
       res.json()
@@ -19,16 +19,16 @@ router.get('/sites/:siteId', async (req, res, next) => {
   }
 })
 
-router.post('/sites/:siteId', async (req, res, next) => {
+router.post('/stations/:stationId', async (req, res, next) => {
   try {
-    const updatedSite = await DAO.updateSite(req.params.siteId, req.body)
+    const updatedSite = await DAO.updateSite(req.params.stationId, req.body)
     res.json(updatedSite)
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/sites', async (req, res, next) => {
+router.get('/stations', async (req, res, next) => {
   try {
     const sites = await DAO.getSites()
     res.json(sites)
