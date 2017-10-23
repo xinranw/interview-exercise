@@ -12,11 +12,27 @@ class DAO {
     }))
   }
 
-  static getSite(id) {
-    SiteModel.findOne()
+  static getSites() {
+    return SiteModel.find()
   }
 
-  static getStation() {
+  static getSite(id) {
+    return SiteModel.findById(id)
+  }
+
+  static updateSite(id, data) {
+    return SiteModel.findById(id)
+      .then(site => {
+        if (Object.keys(data).includes('compliance')) {
+          site.compliance = {
+            value: data.compliance,
+            lastUpdated: new Date()
+          }
+        }
+        return site
+      }).then(site => {
+        return site.save()
+      })
   }
 
   static getTanks(station) {

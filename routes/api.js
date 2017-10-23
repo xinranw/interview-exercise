@@ -5,8 +5,36 @@ const fs = Promise.promisifyAll(require('fs'))
 const DAO = require('./../data/DAO')
 const { Site } = require('./../models')
 
-router.get('/', (req, res, next) => {
-  res.send('respond with a resource')
+router.get('/sites/:siteId', async (req, res, next) => {
+  try {
+    const site = await DAO.getSite(req.params.siteId)
+    if (!site) {
+      res.status(404)
+      res.json()
+      return
+    }
+    res.json(site)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/sites/:siteId', async (req, res, next) => {
+  try {
+    const updatedSite = await DAO.updateSite(req.params.siteId, req.body)
+    res.json(updatedSite)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/sites', async (req, res, next) => {
+  try {
+    const sites = await DAO.getSites()
+    res.json(sites)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.post('/data', async (req, res, next) => {
@@ -15,18 +43,21 @@ router.post('/data', async (req, res, next) => {
     const sitesData = JSON.parse(data)
     const siteModels = sitesData.sites.map(site => Site.parse(site))
     const products = await DAO.saveSiteModels(siteModels)
-    res.status(201).json(products)
+    res.status(201)
+    res.json(products)
   } catch (err) {
-    if (err.name === "MongoError" && err.code === 11000) {
+    if (err.name === 'MongoError' && err.code === 11000) {
       err.status = 409
     }
     next(err)
   }
 })
 
-router.use('/', (err, req, res, next) => {
+router.use('/*', (err, req, res, next) => {
+  const message = err.message
+  const stack = req.app.get('env') === 'development' ? err.stack : {}
   res.status(err.status || 500)
-  res.json(err)
+  res.json({ message, stack })
 })
 
 module.exports = router

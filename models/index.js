@@ -27,6 +27,16 @@ const SiteSchema = Schema({
     leaking: { type: Boolean, default: false },
     leakStatusDate: { type: Date, default: Date.now }
   }]
+}, {
+  toJSON: {
+    transform: (doc, ret) => {
+      return {
+        id: ret._id,
+        name: ret.name,
+        compliance: ret.compliance
+      }
+    }
+  }
 })
 
 const SiteModel = mongoose.model('SiteModel', SiteSchema)
