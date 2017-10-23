@@ -14,7 +14,7 @@ const { Site } = require('./../models')
  * http http://localhost/api/stations
  * 
  * @apiSuccess {Station[]} response List of Stations (`response` is only a placeholder)
- * @apiSuccess {Number} response.id Station's unique Id
+ * @apiSuccess {Number} response.id Station's unique id
  * @apiSuccess {String} response.name The name of the Station
  * @apiSuccess {Boolean} response.compliant The compliance state of the Station
  * @apiSuccess {Boolean} response.complianceUpdate Whether the Station's compliance 
@@ -34,12 +34,12 @@ router.get('/stations', async (req, res, next) => {
  * @apiName GetStation
  * @apiGroup Station
  *
- * @apiParam {Number} stationId Station's unique Id
+ * @apiParam {Number} stationId Station's unique id
  *
  * @apiExample Example usage:
  * http http://localhost/api/stations/123
  * 
- * @apiSuccess {Number} id Station's unique Id
+ * @apiSuccess {Number} id Station's unique id
  * @apiSuccess {String} name The name of the Station
  * @apiSuccess {Boolean} compliant The compliance state of the Station
  * @apiSuccess {Boolean} complianceUpdate Whether the Station's compliance 
@@ -66,7 +66,7 @@ router.get('/stations/:stationId', async (req, res, next) => {
  *
  * @apiDescription Currently only supportings updating Station's compliance by posting `{ compliance: true/false }` as form urlencoded paramters
  *
- * @apiParam {String} stationId Station's unique Id
+ * @apiParam {String} stationId Station's unique id
  * 
  * @apiExample Example usage:
  * http --form PUT http://localhost/api/stations/123 compliance=true
