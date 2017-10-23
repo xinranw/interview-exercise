@@ -5,6 +5,16 @@ const fs = Promise.promisifyAll(require('fs'))
 const DAO = require('./../data/DAO')
 const { Site } = require('./../models')
 
+router.get('/stations/:stationId/tanks', async (req, res, next) => {
+  try {
+    const tanks = await DAO.getTanks(req.params.stationId)
+    res.json(tanks)
+  } catch (err) {
+    err.message = `There was a problem fetching tanks for station ${req.params.stationId}`
+    next(err)
+  }
+})
+
 router.get('/stations/:stationId', async (req, res, next) => {
   try {
     const site = await DAO.getSite(req.params.stationId)

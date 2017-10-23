@@ -40,7 +40,6 @@ var SiteSchema = Schema({
   }
 })
 SiteSchema.virtual('isCompliant').get(function() {
-  debugger
   if (this.compliance.lastUpdated) {
     return this.compliance.value
   } else {

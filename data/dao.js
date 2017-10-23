@@ -35,7 +35,16 @@ class DAO {
       })
   }
 
-  static getTanks(station) {
+  static getTanks(siteId) {
+    return DAO.getSite(siteId)
+      .then(site => {
+        return site.tanks.map(tank => {
+          return {
+            name: tank.name,
+            leaking: tank.leaking
+          }
+        })
+      })
   }
 }
 
