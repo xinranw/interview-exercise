@@ -69,9 +69,9 @@ router.get('/stations/:stationId', async (req, res, next) => {
  * @apiParam {String} stationId Station's unique Id
  * 
  * @apiExample Example usage:
- * http --form POST http://localhost/api/stations/123 compliance=true
+ * http --form PUT http://localhost/api/stations/123 compliance=true
  */
-router.post('/stations/:stationId', async (req, res, next) => {
+router.put('/stations/:stationId', async (req, res, next) => {
   try {
     const updatedSite = await DAO.updateSite(req.params.stationId, req.body)
     res.json(updatedSite)
