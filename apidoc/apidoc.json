@@ -1,0 +1,11 @@
+{
+	"name": "Canary Service API Documentation",
+	"version": "0.1.0",
+	"description": "Canary Service API",
+	"title": "Canary Service API Documentation",
+	"template": {
+		"withCompare": true,
+		"withGenerator": true,
+		"forceLanguage": "en"
+	}
+}
