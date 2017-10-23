@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const Utils = require('./../utils')
 
-const SiteSchema = Schema({
+var SiteSchema = Schema({
   name: {
     type: String,
     unique: true,
@@ -29,13 +29,26 @@ const SiteSchema = Schema({
   }]
 }, {
   toJSON: {
+    virtuals: true,
     transform: (doc, ret) => {
       return {
         id: ret._id,
         name: ret.name,
-        compliance: ret.compliance
+        compliance: ret.isCompliant
       }
     }
+  }
+})
+SiteSchema.virtual('isCompliant').get(function() {
+  debugger
+  if (this.compliance.lastUpdated) {
+    return this.compliance.value
+  } else {
+    const existsLeakingTanks =
+      this.tanks.some(tank => tank.leaking === true)
+    const existsHighSeverityAlarms =
+      this.alarms.some(alarm => alarm.severity === 'High')
+    return !(existsLeakingTanks || existsHighSeverityAlarms)
   }
 })
 
@@ -64,8 +77,12 @@ class Site {
         leakStatusDate: Utils.parseDateString(tank.leakStatusDate)
       }
     })
+    const existsLeakingTanks = 
+      tanks.some(tank => tank.leaking === true)
+    const existsHighSeverityAlarms =
+      alarms.some(alarm => alarm.severity === 'High')
     const compliance = {
-      value: tanks.map(tank => tank.leaking).some(leaking => leaking === true),
+      value: !(existsLeakingTanks || existsHighSeverityAlarms),
       lastUpdated: null
     }
     const siteModelData = {
