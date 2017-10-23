@@ -36,34 +36,27 @@ var SiteSchema = Schema({
       return {
         id: ret._id,
         name: ret.name,
-        compliance: ret.isCompliant
+        compliant: ret.compliant,
+        complianceUpdated: ret.complianceUpdated
       }
     }
   }
 })
-SiteSchema.virtual('isCompliant').get(function() {
+SiteSchema.virtual('compliant').get(function() {
   if (this.compliance.lastUpdated) {
     return this.compliance.value
   } else {
-    const existsLeakingTanks =
-      this.tanks.some(tank => tank.leaking === true)
-    const existsHighSeverityAlarms =
-      this.alarms.some(alarm => alarm.severity === 'High')
-    return !(existsLeakingTanks || existsHighSeverityAlarms)
+    return Site._getCompliance(this.tanks, this.alarms)
   }
+})
+SiteSchema.virtual('complianceUpdated').get(function() {
+  return this.compliance.lastUpdated !== null
 })
 SiteSchema.plugin(uniqueValidator)
 
 const SiteModel = mongoose.model('SiteModel', SiteSchema)
 
 class Site {
-  constructor(name, alarms, tanks, compliant) {
-    this.name = name
-    this.alarms = alarms
-    this.tanks = tanks
-    this.compliant = compliant
-  }
-
   static parse(site) {
     const alarms = site.alarms.map(alarm => {
       return {
@@ -79,12 +72,8 @@ class Site {
         leakStatusDate: Utils.parseDateString(tank.leakStatusDate)
       }
     })
-    const existsLeakingTanks = 
-      tanks.some(tank => tank.leaking === true)
-    const existsHighSeverityAlarms =
-      alarms.some(alarm => alarm.severity === 'High')
     const compliance = {
-      value: !(existsLeakingTanks || existsHighSeverityAlarms),
+      value: Site._getCompliance(tanks, alarms),
       lastUpdated: null
     }
     const siteModelData = {
@@ -95,13 +84,13 @@ class Site {
     }
     return new SiteModel(siteModelData)
   }
-}
 
-class Alarm {
-  constructor(name, severity, date) {
-    this.name = name
-    this.severity = severity
-    this.date = date
+  static _getCompliance(tanks, alarms) {
+    const existsLeakingTanks = 
+      tanks.some(tank => tank.leaking === true)
+    const existsHighSeverityAlarms =
+      alarms.some(alarm => alarm.severity === 'High')
+    return !(existsLeakingTanks || existsHighSeverityAlarms)
   }
 }
 
@@ -115,7 +104,6 @@ class Tank {
 
 module.exports = {
   Site,
-  Alarm,
   Tank,
   SiteModel
 }

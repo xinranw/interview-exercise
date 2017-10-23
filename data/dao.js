@@ -1,5 +1,6 @@
 const Promise = require('bluebird')
-const { SiteModel } = require('./../models')
+
+const { SiteModel, Tank } = require('./../models')
 
 class DAO {
   static saveSiteModel(siteModel) {
@@ -38,11 +39,12 @@ class DAO {
   static getTanks(siteId) {
     return DAO.getSite(siteId)
       .then(site => {
-        return site.tanks.map(tank => {
-          return {
-            name: tank.name,
-            leaking: tank.leaking
-          }
+        return site.tanks.map(tankData => {
+          return new Tank(
+            tankData.name,
+            tankData.leaking,
+            tankData.leakStatusDate
+          )
         })
       })
   }
