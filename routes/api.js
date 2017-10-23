@@ -56,9 +56,6 @@ router.post('/data', async (req, res, next) => {
     res.status(201)
     res.json(products)
   } catch (err) {
-    if (err.name === 'MongoError' && err.code === 11000) {
-      err.status = 409
-    }
     next(err)
   }
 })

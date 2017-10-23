@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const uniqueValidator = require('mongoose-unique-validator')
 
 const Utils = require('./../utils')
 
@@ -28,6 +29,7 @@ var SiteSchema = Schema({
     leakStatusDate: { type: Date, default: Date.now }
   }]
 }, {
+  strict: true,
   toJSON: {
     virtuals: true,
     transform: (doc, ret) => {
@@ -50,6 +52,7 @@ SiteSchema.virtual('isCompliant').get(function() {
     return !(existsLeakingTanks || existsHighSeverityAlarms)
   }
 })
+SiteSchema.plugin(uniqueValidator)
 
 const SiteModel = mongoose.model('SiteModel', SiteSchema)
 
