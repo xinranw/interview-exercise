@@ -1,13 +1,12 @@
 # Canary Service
 ## Instructions for running:
-* Download the codebase
 * Make sure `yarn` or `npm` is installed
 * Run `yarn` or `npm install` to install dependencies
 * Run `yarn start` or `npm start`
 * `POST` to `/api/data` to seed the initial `sites.json` data
 
 ## API Documentation:
-[apiDoc](http://apidocjs.com/) was used to created documentation for the apis.
+[apiDoc](http://apidocjs.com/) was used to create documentation for the apis.
 
 See https://localhost:3000/doc
 
@@ -33,6 +32,10 @@ Node and Express are relatively quick to spin up a basic server with little setu
 ### MongoDB
 Would normally have chosen a relational database (likely `MySQL` or `PostgreSQL`) but with the given dataset, a noSQL database seemed easier for the job. With the decisions from the previous section, the apis specified require little relational querying so a relational database did not seem necessary. If the scope of the project were larger or if significant potential future work were expected, I would certainly consider choosing a relational database. 
 * On a related note, the `DAO` class was created to act as a layer on top of the data and model classes, so that if a database switch were necessary, the rest of the control logic would still be referencing the `DAO` and avoid significant refactoring.
+
+### Keys and Environment
+For a production project, `app.js` and `bin/www` files would have significant configuration changes. * `app.js`: logging and error handling would be updated for development vs production (vs staging) with varying degrees of detail
+`bin/www`: most importantly, database names/keys would not be exposed and would be read in as environment variables. Different databases would also be used for different environments.
 
 ## Testing
 No unit/integration tests are included. API testing was done manually using Postman/Httpie. Would look to add various levels of tests in the future using tools like Mocha/Chai. Testing would include unit testing functions/methods, integration testing apis and database functions.
