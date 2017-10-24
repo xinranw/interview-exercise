@@ -4,6 +4,7 @@
 * Make sure `yarn` or `npm` is installed
 * Run `yarn` or `npm install` to install dependencies
 * Run `yarn start` or `npm start`
+* `POST` to `/api/data` to seed the initial `sites.json` data
 
 ## API Documentation:
 [apiDoc](http://apidocjs.com/) was used to created documentation for the apis.

@@ -105,6 +105,14 @@ router.get('/stations/:stationId/tanks', async (req, res, next) => {
   }
 })
 
+/**
+ * @api {post} /data Seed initial data
+ * @apiName SeedData
+ * @apiGroup Stations
+ *
+ * @apiExample Example usage:
+ * http POST http://localhost/api/data
+ */
 router.post('/data', async (req, res, next) => {
   try {
     const data = await fs.readFileAsync('data/sites.json')
